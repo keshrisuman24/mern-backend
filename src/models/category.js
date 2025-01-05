@@ -22,6 +22,11 @@ const categorySchema = mongoose.Schema(
       data: Buffer,
       contentType: String, // e.g., "image/jpeg" or "image/png"
     },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   {
     timestamps: true,

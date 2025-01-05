@@ -22,6 +22,7 @@ categoryRouter.post(
       const newCategory = new category({
         name,
         description,
+        user: req.user._id,
         photo: {
           data: req.file.buffer,
           contentType: req.file.mimetype,
@@ -42,7 +43,9 @@ categoryRouter.post(
 categoryRouter.get("/category/:id", userAuth, async (req, res) => {
   try {
     const categoryId = req.params.id;
-    const categoryData = await category.findById(categoryId);
+    const categoryData = await category
+      .findById(categoryId)
+      .where({ user: req.user._id });
     if (!categoryData) {
       throw new Error("Category not found");
     }
@@ -73,7 +76,7 @@ categoryRouter.patch(
   async (req, res) => {
     try {
       const categoryId = req.params.id;
-      const categoryData = await category.findById(categoryId);
+      const categoryData = await category.findById(categoryId).where({ user: req.user._id });;
       if (!categoryData) {
         throw new Error("Category not found");
       }
@@ -100,7 +103,7 @@ categoryRouter.patch(
 
 categoryRouter.get("/categoryAll", userAuth, async (req, res) => {
   try {
-    const categories = await category.find();
+    const categories = await category.find().where({ user: req.user._id });;
     let categoryList = [];
     categories.forEach((category) => {
       let categoryObj = {
@@ -126,7 +129,7 @@ categoryRouter.get("/categoryAll", userAuth, async (req, res) => {
 categoryRouter.delete("/category/delete/:id", userAuth, async (req, res) => {
   try {
     const categoryId = req.params.id;
-    const categoryData = await category.findById(categoryId);
+    const categoryData = await category.findById(categoryId).where({ user: req.user._id });;
     if (!categoryData) {
       throw new Error("Category not found");
     }

@@ -26,6 +26,15 @@ const productSchema = mongoose.Schema(
       ref: "Category",
       required: true,
     },
+    brand: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Brand",
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     photo: {
       data: Buffer,
       contentType: String,

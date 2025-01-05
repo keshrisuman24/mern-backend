@@ -86,10 +86,36 @@ const validateBrand = (res) => {
   }
 };
 
+const validateProduct = (res) => {
+  const { name, description, category, price } = res.body;
+  if (!name) {
+    throw new Error("Please Enter Brand Name");
+  }
+  if (name.length < 3 || name.length > 50) {
+    throw new Error("Brand Name must be between 3-50 characters");
+  }
+  if (!description) {
+    throw new Error("Please Enter Brand Description");
+  }
+  if (description.length < 10 || description.length > 200) {
+    throw new Error("Brand Description must be between 10-200 characters");
+  }
+  if (!price) {
+    throw new Error("Please Enter Price");
+  }
+  if (price < 1) {
+    throw new Error("Price must be greater than 1");
+  }
+  if (!category) {
+    throw new Error("Please Select Category");
+  }
+};
+
 module.exports = {
   validateSignUpData,
   validateLoginData,
   validateResetPasswordData,
   validateCategory,
   validateBrand,
+  validateProduct,
 };

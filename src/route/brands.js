@@ -22,9 +22,10 @@ brandRouter.post(
         name,
         description,
         categoryId,
+        user: req.user._id,
         photo: {
           data: req.file.buffer,
-          contentTypr: req.file.mimetype,
+          contentType: req.file.mimetype,
         },
       });
 
@@ -42,7 +43,10 @@ brandRouter.post(
 
 brandRouter.get("/brandAll", userAuth, async (req, res) => {
   try {
-    const brands = await brand.find().populate("categoryId", "name");
+    const brands = await brand
+      .find()
+      .where({ user: req.user._id })
+      .populate("categoryId", "name");
     let brandList = [];
     brands.forEach((el) => {
       let brandObj = {
@@ -72,7 +76,10 @@ brandRouter.get("/brandAll", userAuth, async (req, res) => {
 brandRouter.get("/brand/getBrand/:id", userAuth, async (req, res) => {
   try {
     const brandId = req.params.id;
-    const brands = await brand.findById(brandId).populate("categoryId", "name");
+    const brands = await brand
+      .findById(brandId)
+      .where({ user: req.user._id })
+      .populate("categoryId", "name");
     if (!brands) {
       throw new Error("Brand not found");
     }
@@ -107,6 +114,7 @@ brandRouter.patch(
       const brandId = req.params.id;
       const brandData = await brand
         .findById(brandId)
+        .where({ user: req.user._id })
         .populate("categoryId", "name");
       if (!brandData) {
         throw new Error("Brand not found");
@@ -137,7 +145,9 @@ brandRouter.patch(
 brandRouter.delete("/brand/delete/:id", userAuth, async (req, res) => {
   try {
     const brandId = req.params.id;
-    const brandData = await brand.findById(brandId);
+    const brandData = await brand
+      .findById(brandId)
+      .where({ user: req.user._id });
     if (!brandData) {
       throw new Error("Brand not found");
     }

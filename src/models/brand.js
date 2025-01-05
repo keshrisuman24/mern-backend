@@ -25,6 +25,11 @@ const brandSchema = mongoose.Schema(
       data: Buffer,
       contentType: String,
     },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   {
     timeStamps: true,
