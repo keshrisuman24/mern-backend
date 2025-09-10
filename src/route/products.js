@@ -153,7 +153,7 @@ productRouter.patch(
   }
 );
 
-productRouter.delete("/product/delete/:id", userAuth, async (req, res) => {
+productRouter.get("/product/delete/:id", userAuth, async (req, res) => {
   try {
     const productId = req.params.id;
     const productData = await Product.findById(productId).where({

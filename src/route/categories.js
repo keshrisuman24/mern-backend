@@ -126,7 +126,7 @@ categoryRouter.get("/categoryAll", userAuth, async (req, res) => {
   }
 });
 
-categoryRouter.delete("/category/delete/:id", userAuth, async (req, res) => {
+categoryRouter.get("/category/delete/:id", userAuth, async (req, res) => {
   try {
     const categoryId = req.params.id;
     const categoryData = await category.findById(categoryId).where({ user: req.user._id });;

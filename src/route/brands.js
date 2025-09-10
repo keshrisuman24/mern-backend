@@ -142,7 +142,7 @@ brandRouter.patch(
   }
 );
 
-brandRouter.delete("/brand/delete/:id", userAuth, async (req, res) => {
+brandRouter.get("/brand/delete/:id", userAuth, async (req, res) => {
   try {
     const brandId = req.params.id;
     const brandData = await brand

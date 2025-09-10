@@ -5,6 +5,7 @@ const {
   validateLoginData,
 } = require("../utils/validation");
 const bcrypt = require("bcrypt");
+const { userAuth } = require("../middlewares/userAuthMiddleware");
 
 const authRouter = express.Router();
 
@@ -57,6 +58,27 @@ authRouter.post("/login", async (req, res) => {
     }
   } catch (error) {
     res.status(400).json({
+      message: "Error: " + error.message,
+    });
+  }
+});
+
+authRouter.get("/getCurrentUser", userAuth, async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      throw new Error("No Token Provided");
+    }
+    const currentUser = await req.user;
+    if (!currentUser) {
+      throw new Error("Invalid Token");
+    }
+    res.status(200).json({
+      message: "Current User",
+      data: currentUser,
+    });
+  } catch (error) {
+    res.status(401).json({
       message: "Error: " + error.message,
     });
   }
